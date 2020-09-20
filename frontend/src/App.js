@@ -15,25 +15,28 @@ class App extends Component {
   }
 
   fetchTopics = async () => {
-    const { topics } = await axios.get(
+    const { data } = await axios.get(
       `${process.env.REACT_APP_API_URL}/get_topics`,
     );
+    const { topics } = data;
     this.setState({topics})
   }
 
-  handleChange(event) {
+  handleChange = (event) => {
     this.setState({question: event.target.value});
   }
 
-  handleSubmit(event) {
+  handleSubmit = (event) => {
     this.fetchAnswer();
     event.preventDefault();
   }
 
   fetchAnswer = async () => {
-    const { answer } = await axios.get(
-      `${process.env.REACT_APP_API_URL}/submit_question`,
+    const { question } = this.state;
+    const { data } = await axios.post(
+      `${process.env.REACT_APP_API_URL}/submit_question`, { question }
     );
+    const { answer } = data;
     this.setState({answer})
   }
 
